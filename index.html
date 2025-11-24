@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laser Decor & Sweet Delights</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { primary: '#d4af37', secondary: '#111827' } } } }
+    </script>
+    <link rel="icon" href="https://i.ibb.co/0jG4K7K/laser-favicon-32.png" sizes="32x32">
+</head>
+<body class="bg-secondary text-white min-h-screen flex flex-col items-center justify-center relative">
+
+    <!-- زر واتساب -->
+    <a href="https://wa.me/966501234567" target="_blank" 
+       class="fixed bottom-8 left-8 z-50 bg-green-500 hover:bg-green-600 p-5 rounded-full shadow-2xl transition hover:scale-110">
+        <i data-feather="message-circle" class="w-10 h-10"></i>
+    </a>
+
+    <!-- أيقونة الأدمن (مخفية للزبون، واضحة لك) -->
+    <button onclick="showAdmin()" 
+            class="fixed top-6 left-6 z-50 bg-gray-800 hover:bg-primary p-4 rounded-full shadow-2xl">
+        <i data-feather="settings" class="w-8 h-8"></i>
+    </button>
+
+    <!-- رابط مخفي لصفحة الصور (لك أنتِ بس) -->
+    <a href="الصور.html" target="_blank" 
+       class="fixed top-6 right-6 z-50 bg-primary hover:bg-yellow-500 px-4 py-2 rounded-full text-black font-bold opacity-0 hover:opacity-100 transition">
+       افتحي الصور
+    </a>
+
+    <!-- الشاشة الرئيسية النظيفة -->
+    <div class="text-center px-6">
+        <img src="https://i.ibb.co/0jG4K7K/laser-favicon-32.png" alt="logo" class="w-32 h-32 mx-auto mb-8">
+        <h1 class="text-6xl md:text-8xl font-bold text-primary mb-6">Laser Decor Delights</h1>
+        <p class="text-2xl md:text-4xl opacity-90">ديكورات ليزر فاخرة وحلويات شهية</p>
+        <p class="text-xl mt-10 opacity-70">تواصلي معانا عبر واتساب</p>
+    </div>
+
+    <!-- لوحة الأدمن -->
+    <div id="admin" class="fixed inset-0 bg-black bg-opacity-95 z-50 hidden flex items-center justify-center p-6">
+        <div class="bg-gray-800 p-10 rounded-3xl max-w-lg w-full">
+            <h2 class="text-4xl text-primary text-center mb-8">لوحة التحكم</h2>
+            <input type="file" id="img" accept="image/*" class="block w-full text-lg mb-6">
+            <button onclick="addImage()" class="w-full bg-primary text-black py-4 rounded-xl font-bold text-xl hover:bg-yellow-400">
+                رفع الصورة (تظهر في ملف الصور)
+            </button>
+            <button onclick="hideAdmin()" class="mt-4 w-full bg-red-600 py-3 rounded-xl font-bold">خروج</button>
+            <p id="status" class="text-green-400 text-center mt-6 font-bold text-xl"></p>
+        </div>
+    </div>
+
+    <script>
+        feather.replace();
+        const PASS = "admin2025";
+
+        function showAdmin() {
+            if (prompt("كلمة المرور:") === PASS) {
+                document.getElementById('admin').classList.remove('hidden');
+            }
+        }
+
+        function hideAdmin() {
+            document.getElementById('admin').classList.add('hidden');
+            document.getElementById('status').textContent = "";
+        }
+
+        function addImage() {
+            const file = document.getElementById('img').files[0];
+            if (!file) return alert("اختاري صورة");
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const images = JSON.parse(localStorage.getItem('laserImages') || '[]');
+                images.unshift(e.target.result);
+                localStorage.setItem('laserImages', JSON.stringify(images));
+                document.getElementById('status').textContent = "تم الرفع! افتحي ملف الصور.html";
+                document.getElementById('img').value = "";
+            };
+            reader.readAsDataURL(file);
+        }
+    </script>
+</body>
+</html>
