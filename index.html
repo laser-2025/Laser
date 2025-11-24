@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laser Decor & Sweet Delights</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <!-- أجمل تكبير صور (Fancybox 5) - شغال 100% على الجوال -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+
+    <script>
+        tailwind.config = { theme: { extend: { colors: { primary: '#d4af37', secondary: '#111827' } } } }
+    </script>
+
+    <style>
+        .hidden { display: none !important; }
+        .gallery-img { transition: all 0.4s; }
+        .gallery-img:hover { transform: scale(1.06); }
+    </style>
+</head>
+<body class="bg-black text-white">
+
+    <!-- زر واتساب ثابت -->
+    <a href="https://wa.me/966501234567" target="_blank"
+       class="fixed bottom-6 left-6 z-50 bg-green-500 hover:bg-green-600 p-5 rounded-full shadow-2xl transition hover:scale-110">
+        <i data-feather="message-circle" class="w-10 h-10"></i>
+    </a>
+
+    <!-- أيقونة الأدمن -->
+    <button onclick="showAdmin()" 
+            class="fixed top-6 left-6 z-50 bg-gray-800 hover:bg-primary p-4 rounded-full shadow-2xl">
+        <i data-feather="settings" class="w-8 h-8"></i>
+    </button>
+
+    <!-- الهيدر الأنيق -->
+    <div class="text-center py-16 bg-gradient-to-b from-black to-gray-900">
+        <img src="https://i.ibb.co/0jG4K7K/laser-favicon-32.png" alt="logo" class="w-28 h-28 mx-auto mb-6 rounded-full shadow-2xl">
+        <h1 class="text-5xl md:text-7xl font-bold text-primary mb-4">Laser Decor & Sweet Delights</h1>
+        <p class="text-xl md:text-3xl opacity-90">ديكورات ليزر فاخرة وحلويات شهية لكل المناسبات</p>
+    </div>
+
+    <!-- المعرض يظهر للزبائن فورًا -->
+    <div class="py-10 px-4">
+        <h2 class="text-4xl md:text-6xl text-primary text-center font-bold mb-12">معرض الأعمال</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-7xl mx-auto" id="gallery">
+            <!-- الصور تظهر هنا تلقائيًا -->
+        </div>
+    </div>
+
+    <!-- لوحة الأدمن -->
+    <div id="admin" class="fixed inset-0 bg-black bg-opacity-95 z-50 hidden flex items-center justify-center p-6">
+        <div class="bg-gray-800 p-10 rounded-3xl max-w-lg w-full text-center">
+            <h2 class="text-4xl text-primary mb-8">لوحة التحكم</h2>
+            <input type="file" id="img" accept="image/*" class="block w-full text-lg mb-6">
+            <button onclick="addImage()" class="w-full bg-primary text-black py-5 rounded-xl font-bold text-2xl hover:bg-yellow-400">
+                إضافة صورة جديدة
+            </button>
+            <button onclick="hideAdmin()" class="mt-4 w-full bg-red-600 py-4 rounded-xl font-bold text-xl">
+                خروج
+            </button>
+            <p id="status" class="text-green-400 text-2xl font-bold mt-6"></p>
+        </div>
+    </div>
+
+    <script>
+        feather.replace();
+        const PASS = "admin2025";
+
+        // تحميل وإظهار الصور للجميع
+        function loadGallery() {
+            const container = document.getElementById('gallery');
+            container.innerHTML = "";
+            const images = JSON.parse(localStorage.getItem('laserImages') || '[]');
+
+            if (images.length === 0) {
+                container.innerHTML = "<p class='col-span-full text-center text-gray-500 text-2xl py-20'>قريبًا المزيد من الأعمال الرائعة ✨</p>";
+            } else {
+                images.forEach(src => {
+                    container.innerHTML += `
+                    <a href="${src}" data-fancybox="gallery" class="block overflow-hidden rounded-2xl shadow-2xl">
+                        <img src="${src}" class="w-full h-64 md:h-80 object-cover gallery-img" loading="lazy" alt="عمل ليزر">
+                    </a>`;
+                });
+
+                // تفعيل التكبير الفاخر
+                Fancybox.bind("[data-fancybox]", {
+                    infinite: true,
+                    animated: true,
+                    hideScrollbar: true,
+                    Image: { zoom: true, click: "zoom", wheel: "zoom" }
+                });
+            }
+        }
+
+        // إضافة صورة من الأدمن
+        function addImage() {
+            const file = document.getElementById('img').files[0];
+            if (!file) return alert("اختاري صورة");
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const images = JSON.parse(localStorage.getItem('laserImages') || '[]');
+                images.unshift(e.target.result);
+                localStorage.setItem('laserImages', JSON.stringify(images));
+                loadGallery();
+                document.getElementById('status').textContent = "تمت الإضافة!";
+                document.getElementById('img').value = "";
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function showAdmin() {
+            if (prompt("كلمة المرور:") === PASS) {
+                document.getElementById('admin').classList.remove('hidden');
+            }
+        }
+
+        function hideAdmin() {
+            document.getElementById('admin').classList.add('hidden');
+            document.getElementById('status').textContent = "";
+            loadGallery();
+        }
+
+        // تشغيل عند الفتح
+        window.onload = loadGallery;
+    </script>
+</body>
+  </html>
