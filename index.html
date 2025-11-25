@@ -1,162 +1,0 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الشاشة الرئيسية المتكاملة</title>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <style>
-        /* ************************************ */
-        /* قسم CSS - التنسيقات          */
-        /* ************************************ */
-        
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            text-align: right;
-            direction: rtl; /* لضمان الاتجاه الصحيح */
-        }
-
-        header {
-            background-color: #333;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .gallery {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .gallery-item {
-            background-color: white;
-            border: 1px solid #ccc;
-            margin: 10px;
-            padding: 10px;
-            width: 300px; 
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            text-align: center;
-            transition: transform 0.3s; /* لإضافة تأثير عند التمرير */
-            cursor: pointer;
-        }
-        
-        /* تأثير عند مرور الماوس */
-        .gallery-item:hover {
-            transform: scale(1.03);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: auto;
-            border-radius: 6px;
-            /* للتأكد من أن الصور موجودة في مجلد images */
-            min-height: 150px; 
-            object-fit: cover; 
-        }
-
-        /* تنسيقات زر واتساب العائم */
-        .whatsapp-button {
-            position: fixed; 
-            bottom: 20px; 
-            left: 20px; /* في RTL، يكون الزر على اليسار */
-            background-color: #25D366; 
-            color: white;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%; 
-            text-align: center;
-            line-height: 60px;
-            font-size: 30px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            z-index: 1000; 
-            text-decoration: none; 
-            transition: background-color 0.3s;
-        }
-
-        .whatsapp-button:hover {
-            background-color: #128C7E;
-        }
-
-        footer {
-            text-align: center;
-            padding: 10px;
-            background-color: #333;
-            color: white;
-            margin-top: 20px;
-        }
-    </style>
-</head>
-<body>
-
-    <header>
-        <h1>مرحباً بك في معرض الصور الرئيسي 🖼️</h1>
-        <p>اكتشف أحدث منتجاتنا وعروضنا.</p>
-    </header>
-
-    <main class="gallery" id="product-gallery">
-        <div class="gallery-item">
-            <img src="images/placeholder1.jpg" alt="صورة منتج 1">
-            <h3>اسم المنتج الأول</h3>
-            <p>وصف مختصر للمنتج الأول، اضغط للمزيد.</p>
-        </div>
-        
-        <div class="gallery-item">
-            <img src="images/placeholder2.jpg" alt="صورة منتج 2">
-            <h3>اسم المنتج الثاني</h3>
-            <p>وصف مختصر للمنتج الثاني، اضغط للمزيد.</p>
-        </div>
-        
-        <div class="gallery-item">
-            <img src="images/placeholder3.jpg" alt="صورة منتج 3">
-            <h3>اسم المنتج الثالث</h3>
-            <p>وصف مختصر للمنتج الثالث، اضغط للمزيد.</p>
-        </div>
-    </main>
-
-    <footer>
-        <p>&copy; 2025. جميع الحقوق محفوظة.</p>
-    </footer>
-
-    <a href="https://wa.me/966500000000?text=مرحباً،%20لدي%20استفسار%20بخصوص%20منتجاتكم." class="whatsapp-button" target="_blank">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-    
-    <script>
-        /* ************************************ */
-        /* قسم JavaScript - التفاعل        */
-        /* ************************************ */
-        
-        document.addEventListener('DOMContentLoaded', (event) => {
-            console.log('تم تحميل الصفحة بنجاح.');
-
-            // تحديد جميع عناصر المعرض
-            const galleryItems = document.querySelectorAll('.gallery-item');
-            
-            // إضافة حدث "النقر" لكل عنصر
-            galleryItems.forEach(item => {
-                item.addEventListener('click', () => {
-                    const productName = item.querySelector('h3').textContent;
-                    
-                    // إظهار تنبيه عند النقر
-                    alert('تم النقر على منتج: ' + productName + '. يمكنك هنا فتح صفحة تفاصيل المنتج.');
-                    
-                    // في مشروع حقيقي، سيتم استخدام window.location.href لتوجيه المستخدم لصفحة المنتج
-                    // مثال: window.location.href = 'details.html?product=' + productName;
-                });
-            });
-            
-            // يمكنك إضافة وظيفة أخرى مثل: تحديث الوقت الحالي أو التحقق من حالة الاتصال... الخ.
-        });
-    </script>
-
-</body>
-</html>
