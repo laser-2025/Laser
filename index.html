@@ -1,0 +1,45 @@
+<!-- ... Tu HTML anterior ... -->
+
+<!-- Lo nuevo en el panel de admin: Ya no seleccionas archivo, pegas un link -->
+<div id="adminpanel">
+    <h3 style="color:#d4af37;text-align:center;">إضافة صورة (بالرابط)</h3>
+    <!-- Cambiado de input type="file" a input type="text" -->
+    <input type="text" id="newimgUrl" placeholder="رابط الصورة المباشر (URL)"><br> 
+    <input type="text" id="capimg" placeholder="تعليق (اختياري)"><br>
+    <button onclick="addImgUrl()">إضافة الصورة من الرابط</button> 
+    <!-- ... Resto del panel para vídeos ... -->
+</div>
+
+<script>
+// ... Tus funciones anteriores (showPage, goBack, openLightbox, openAdmin) ...
+
+// **NUEVA Función para añadir imagen por URL**
+function addImgUrl(){
+    const urlInput = document.getElementById('newimgUrl');
+    const capInput = document.getElementById('capimg');
+    const url = urlInput.value;
+
+    if (url) {
+        let data = JSON.parse(localStorage.getItem('laserData') || JSON.stringify(defaultData));
+        const newId = Date.now();
+        
+        // Usamos la URL directamente como fuente de la imagen
+        data.photos.push({id: newId, src: url, cap: capInput.value || 'صورة جديدة'});
+        localStorage.setItem('laserData', JSON.stringify(data));
+        
+        if (currentView === 'photos') {
+            loadPhotos();
+        }
+        alert('تمت إضافة الصورة بنجاح وستظهر للجميع!');
+        capInput.value = '';
+        urlInput.value = '';
+    } else {
+        alert('الرجاء إدخال رابط صورة صالح!');
+    }
+}
+
+// ... El resto de tus funciones loadPhotos, loadVideos, deleteItem, toggleLang ...
+
+</script>
+</body>
+</html>
